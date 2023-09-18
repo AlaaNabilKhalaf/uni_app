@@ -1,6 +1,6 @@
 abstract class LayoutStates {}
 
-class InitialState extends LayoutStates {}
+class LayoutInitialState extends LayoutStates {}
 class PassVisibilityChanged extends LayoutStates{}
 class NavToHomeScreenState extends LayoutStates{}
 class ImagePickedState extends LayoutStates{}

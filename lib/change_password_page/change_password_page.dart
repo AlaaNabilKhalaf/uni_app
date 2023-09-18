@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:uni_attendance/cubit/layout_cubit/layout_cubit.dart';
 import 'package:uni_attendance/cubit/layout_cubit/layout_states.dart';
-import 'package:uni_attendance/test.dart';
+import 'package:uni_attendance/login_page/login_page.dart';
 
 import '../constance.dart';
 
@@ -273,7 +272,7 @@ class ChangePasswordPage extends StatelessWidget {
                    children:<Widget> [
 
                      MaterialButton(  onPressed: () {
-                       Navigator.push(context, MaterialPageRoute(builder: (context)=> const Test()));
+                       Navigator.push(context, MaterialPageRoute(builder: (context)=> const LoginPage()));
 
                      },
                        color: primeColor,

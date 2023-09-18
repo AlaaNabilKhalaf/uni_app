@@ -4,10 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:uni_attendance/change_password_page/change_password_page.dart';
 import 'package:uni_attendance/cubit/layout_cubit/layout_cubit.dart';
 import 'package:uni_attendance/cubit/layout_cubit/layout_states.dart';
-
 import '../constance.dart';
 import '../scanner_page/scanner_page.dart';
-import '../test.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -52,7 +50,7 @@ class HomePage extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context)=> const ChangePasswordPage()));
+                                  builder: (context)=>  const ChangePasswordPage()));
 
                         },
                         items: [
@@ -105,7 +103,6 @@ class HomePage extends StatelessWidget {
                         maxRadius: 80.r,
                         child: Image.asset('assets/images/qr-code.png',),
                       ),),
-
 
                     Text('Scan QR Code',
                       style: TextStyle(

@@ -5,12 +5,12 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'dart:convert';
 import 'package:http/http.dart ' as http ;
 import 'package:http/http.dart%20';
-
 import '../constance.dart';
 
 class QrScanner extends StatefulWidget {
-  QrScanner();
+  QrScanner({super.key});
   int id = 0 ;
+
   @override
   State<QrScanner> createState() => _QrScannerState();
 }
@@ -74,29 +74,24 @@ class _QrScannerState extends State<QrScanner> {
         }
     );
     // debugPrint(response.statusCode);
-    debugPrint('""""""""""""""""""""""""""""""""""""""""http://66.29.130.92:5000/api/mobile_api/add_attendance?lecture_id= ${widget.id}&student_id= ');
+    debugPrint('""""""""""""""""""""""""""""""""""""""""http://66.29.130.92:5000/api/mobile_api/add_attendance?lecture_id= ${widget.id}&student_id=0');
     if(response.statusCode == 200){
       var lecid = lecId(barcode!.code.toString());
       debugPrint('lecture id is $lecid');
       Map<String , dynamic> data = jsonDecode(response.body);
+
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Center(child:  Text('${data["message"]}')),
       ));
 
     }
     }catch(e){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Center(child:  Text('something went wrong try again')),
       ));
 
     }
-
-  }
-  String sti (){
-    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    String decoded = stringToBase64.decode(barcode!.code.toString());
-    debugPrint( '""""""""""""""""""""""""""""""""DONEEEEEEEEEEEE');
-    return decoded ;
 
   }
 
@@ -150,7 +145,7 @@ class _QrScannerState extends State<QrScanner> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        IconButton(onPressed: ()async{
+        IconButton(onPressed: () async {
           await controller?.toggleFlash();
           setState(() {
 

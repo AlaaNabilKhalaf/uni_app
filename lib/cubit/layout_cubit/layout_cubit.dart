@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uni_attendance/login_page/login_page.dart';
+import '../../home_page/home_page.dart';
 import '../../local_network/local_network.dart';
 import 'layout_states.dart';
 import 'dart:io';
@@ -10,8 +11,9 @@ import 'package:http/http.dart%20';
 import 'package:http/http.dart ' as http ;
 
 class LayoutCubit extends Cubit <LayoutStates>{
-  LayoutCubit() : super (InitialState());
+  LayoutCubit() : super (LayoutInitialState());
 
+  //Change Password Screen Items
   bool oldPassCheck = true ;
   bool newPassCheck = true ;
   bool conPassCheck = true ;
@@ -20,6 +22,9 @@ class LayoutCubit extends Cubit <LayoutStates>{
   final newPassController = TextEditingController();
   final newPassConController = TextEditingController();
 
+
+
+  //Login Screen Items
   bool loginPassCheck = true ;
   final uniEmailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -28,16 +33,18 @@ class LayoutCubit extends Cubit <LayoutStates>{
    passCheck = !passCheck;
     emit(PassVisibilityChanged());
   }
-
   navToHomeScreen(BuildContext context){
     Navigator.push(context,
         MaterialPageRoute(
-            builder: (context)=> const LoginPage() ));
+            builder: (context)=> const HomePage() ));
     emit(NavToHomeScreenState());
   }
 
+
+
+  //Home Screen Items
   File? image ;
-  String? theKey ;
+
   Future pickImage() async {
     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
     emit(ImagePickedState());
@@ -48,8 +55,11 @@ class LayoutCubit extends Cubit <LayoutStates>{
     return image;
   }
 
+
+//ApI Functions
   allApiFun(){
 
+    String? theKey ;
   String? userName ;
   String? passMassage ;
   int? userId ;
