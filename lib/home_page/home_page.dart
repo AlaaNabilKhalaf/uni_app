@@ -50,14 +50,13 @@ class HomePage extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context)=>  const ChangePasswordPage()));
+                                  builder: (context)=> const ChangePasswordPage()));
 
                         },
                         items: [
                           DropdownMenuItem(value: '0',child:  Text('Change Password',style: TextStyle(
                               fontSize: 15.sp,color: primeColor ),),)
                         ],), ),
-
 
                       Positioned(
                         top: 100.h,right: 50.w,
@@ -78,10 +77,16 @@ class HomePage extends StatelessWidget {
                               )
                           ) : Container(
                               clipBehavior: Clip.antiAlias,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.w),
+                              decoration: const  BoxDecoration(
+                                // borderRadius: BorderRadius.circular(10.w),
+                                shape: BoxShape.circle
                               ),
-                              child: Image.file(cubit.image!, fit: BoxFit.fill,height: 100.h,width: 100.w,)),
+                              child: Image.file(
+                                cubit.image!,
+                                fit: BoxFit.cover,
+                                height: 100.h,
+                                width: 100.w,
+                              )),
                         ),)
                     ],
                   ),
@@ -95,7 +100,10 @@ class HomePage extends StatelessWidget {
                   children: [
                     MaterialButton(onPressed: (){
 
-                      Navigator.push(context, MaterialPageRoute(builder: (context )=> QrScanner()));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context )=> const QrScanner(
+                        //cubit.userId
+                        userId: 0,)));
                     },
                       elevation: 50,
                       child: CircleAvatar(

@@ -8,8 +8,10 @@ import 'package:http/http.dart%20';
 import '../constance.dart';
 
 class QrScanner extends StatefulWidget {
-  QrScanner({super.key});
-  int id = 0 ;
+ const QrScanner({
+    super.key ,
+  required this.userId });
+  final int userId ;
 
   @override
   State<QrScanner> createState() => _QrScannerState();
@@ -52,7 +54,8 @@ class _QrScannerState extends State<QrScanner> {
     );
 
   }
-  Widget buildQrViewer (BuildContext context )=> QRView(key: qrKey,
+  Widget buildQrViewer (BuildContext context )=> QRView(
+        key: qrKey,
     onQRViewCreated: onQRViewCreated ,
     overlay: QrScannerOverlayShape(
         cutOutSize: MediaQuery.of(context).size.width*0.8,
@@ -65,7 +68,7 @@ class _QrScannerState extends State<QrScanner> {
 
   Future<void> qrGenerator() async {
     try{ Response response = await http.post(
-        Uri.parse('http://66.29.130.92:5000/api/mobile_api/add_attendance?lecture_id=${lecId(barcode!.code.toString())}&student_id=${widget.id}'),
+        Uri.parse('http://66.29.130.92:5000/api/mobile_api/add_attendance?lecture_id=${lecId(barcode!.code.toString())}&student_id=${widget.userId}'),
         headers: {
           'accept': 'application/json' ,
           'User': 'admin' ,
@@ -74,19 +77,19 @@ class _QrScannerState extends State<QrScanner> {
         }
     );
     // debugPrint(response.statusCode);
-    debugPrint('""""""""""""""""""""""""""""""""""""""""http://66.29.130.92:5000/api/mobile_api/add_attendance?lecture_id= ${widget.id}&student_id=0');
+    debugPrint('""""""""""""""""""""""""""""""""""""""""http://66.29.130.92:5000/api/mobile_api/add_attendance?lecture_id= ${widget.userId}&student_id=0');
     if(response.statusCode == 200){
-      var lecid = lecId(barcode!.code.toString());
-      debugPrint('lecture id is $lecid');
+      var lectureId = lecId(barcode!.code.toString());
+      debugPrint('lecture id is $lectureId');
       Map<String , dynamic> data = jsonDecode(response.body);
-
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Center(child:  Text('${data["message"]}')),
       ));
 
     }
     }catch(e){
-
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Center(child:  Text('something went wrong try again')),
       ));
@@ -145,7 +148,8 @@ class _QrScannerState extends State<QrScanner> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        IconButton(onPressed: () async {
+        IconButton(
+            onPressed: () async {
           await controller?.toggleFlash();
           setState(() {
 

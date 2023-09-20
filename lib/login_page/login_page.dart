@@ -1,12 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:http/http.dart%20' as http ;
-import 'package:http/http.dart%20';
+import 'package:uni_attendance/cubit/layout_cubit/layout_cubit.dart';
+import 'package:uni_attendance/cubit/layout_cubit/layout_states.dart';
 import 'package:uni_attendance/home_page/home_page.dart';
 import '../constance.dart';
-import '../local_network/local_network.dart';
 
 class LoginPage extends StatefulWidget {
 const LoginPage({super.key});
@@ -16,228 +14,222 @@ const LoginPage({super.key});
 }
 
 class _LoginPageState extends State<LoginPage> {
- bool loginPassCheck = true ;
 
-final uniEmailController = TextEditingController();
-
-final passwordController = TextEditingController();
- String? theKey ;
- String? userName ;
- String? passMassage ;
- int? userId ;
- String loginMassage = "";
   @override
   Widget build(BuildContext context) {
-    Future<bool> login({required String uniEmail, required String password,}) async {
-      try{ Response response = await http.post(
-          Uri.parse('attendance.ebdaa-business.com/student_login'),
-          body: {
-            'university_email' : uniEmail,
-            'password' : password
-          },
-          headers: {
-            'accept': 'application/json' ,
-            'User': 'admin' ,
-            'apikey': 'apikey' ,
-            'Content-Type': 'application/x-www-form-urlencoded' ,
-          }
-      );
-      if(response.statusCode == 200){
-        Map<String , dynamic> data = jsonDecode(response.body);
-        debugPrint("enter status 200");
-        if (data["message"] == "Logged in successfully")
-        {
-          loginMassage = data["message"] ;
-          userId = data["student_id"];
-          // CacheNetwork.insertToValueID(
-          //   key: 'student_id',  value: data['student_id'] ,
-          // );
-          // CacheNetwork.insertToValueName(key: "student_name", value: data["student_name"]);
-          debugPrint(data['message']);
-          theKey = 'student_id' ;
-          return true;
-        }
-        else {
-          loginMassage = data["message"] ;
-          return false;
-        }
-      }
-      } catch(e) {
-        loginMassage = 'Make Sure your Email and Password are Right ';
-        return false;
-      }
-      return false;
-    }
-    return  Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          //  crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children:<Widget> [
-            Container(
-              padding:  EdgeInsets.only(
-                top: 100.h,
-                bottom: 20.h,
-                left: 35.w,
-                right: 35.w
+    final cubit = BlocProvider.of<LayoutCubit>(context);
+    // Future<bool> login({required String uniEmail, required String password,})
+    // async {
+    //   try{ Response response = await http.post(
+    //       Uri.parse('https://attendance.ebdaa-business.com/login'),
+    //       body: {
+    //         'university_email' : uniEmail,
+    //         'password' : password
+    //       },
+    //       headers: {
+    //         'accept': 'application/json' ,
+    //         'User': 'admin' ,
+    //         'apikey': 'apikey' ,
+    //         'Content-Type': 'application/x-www-form-urlencoded' ,
+    //       }
+    //   );
+    //   if(response.statusCode == 200){
+    //     Map<String , dynamic> data = jsonDecode(response.body);
+    //     debugPrint("enter status 200");
+    //     if (data["message"] == "Logged in successfully")
+    //     {
+    //       cubit.loginMassage = data["message"] ;
+    //       cubit.userId = data["student_id"];
+    //       // CacheNetwork.insertToValueID(
+    //       //   key: 'student_id',  value: data['student_id'] ,
+    //       // );
+    //       // CacheNetwork.insertToValueName(key: "student_name", value: data["student_name"]);
+    //       debugPrint(data['message']);
+    //       cubit.theKey = 'student_id' ;
+    //       return true;
+    //     }
+    //     else {
+    //       cubit.loginMassage = data["message"] ;
+    //       return false;
+    //     }
+    //   }
+    //   } catch(e) {
+    //     cubit.loginMassage = 'Make Sure your Email and Password are Right ';
+    //     return false;
+    //   }
+    //   return false;
+    // }
+    return  BlocConsumer<LayoutCubit , LayoutStates>(
+        listener: (context , state ){},
+        builder: (context , state ){
+          return Scaffold(
+            body: SingleChildScrollView(
+              child: Column(
+            //  crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children:<Widget> [
+              Container(
+                padding:  EdgeInsets.only(
+                    top: 100.h,
+                    bottom: 20.h,
+                    left: 35.w,
+                    right: 35.w
+                ),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children:<Widget> [
+                      Image.asset('assets/images/Group 538.png',
+                        fit: BoxFit.fill,),
+                      SizedBox(height: 15.h,),
+                      Image.asset('assets/icons/Login.png',fit: BoxFit.fill,),
+                    ],
+                  ),
+                ),
               ),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children:<Widget> [
 
-                    Image.asset('assets/images/Group 538.png',
-                      fit: BoxFit.fill,),
-                    SizedBox(height: 15.h,),
-                    Image.asset('assets/icons/Login.png',fit: BoxFit.fill,),
+              Padding(
+                padding: const EdgeInsets.all(15.0).w,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    // Email
+                    Text('University Email',
+                      style: TextStyle(
+                          fontSize: 25.sp,
+                          color: primeColor
+                      ),),
+                    SizedBox(height: 5.h,),
+                    TextFormField(
+                      onTap: (){
+                        ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                      },
+                      controller: cubit.uniEmailController,
+                      decoration: InputDecoration(
+                          hintText: 'Email',
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 2.w,
+                              color: primeColor,
+                            ),
+                            borderRadius: BorderRadius.circular(25.r),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25.r),
+
+                              borderSide: BorderSide(
+                                  width: 2.w,
+                                  color: primeColor
+                              )
+                          )
+                      ),
+                    ),
+                    SizedBox(height: 10.h,),
+
+                    // Password
+                    Text('Password',
+                      style: TextStyle(
+                          fontSize: 25.sp,
+                          color: primeColor
+                      ),),
+                    SizedBox(height: 5.h,),
+                    TextFormField(
+                      onTap: (){
+                        ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                      },
+                      controller: cubit.loginPasswordController,
+                      obscureText: cubit.loginPassCheck,
+                      decoration: InputDecoration(
+                          hintText: 'Password',
+                          suffixIcon: IconButton(
+                            onPressed: (){
+                              cubit.changeLoginPassVisibility();
+                            },
+                            icon:  Icon(
+                              cubit.loginPassCheck ?
+                              Icons.remove_red_eye :
+                              Icons.password,
+                              color: primeColor,
+                            ),),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 2.w,
+                              color: primeColor,
+                            ),
+                            borderRadius: BorderRadius.circular(25.r),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25.r),
+                              borderSide:  BorderSide(
+                                  width: 2.w,
+                                  color: primeColor
+                              )
+                          )
+                      ),
+                    ),
                   ],
                 ),
               ),
-            ),
+              SizedBox(height: 10.h,),
+              MaterialButton(
+                onPressed: () async {
+                  if(cubit.uniEmailController.text == "alaa" && cubit.loginPasswordController.text == "555")
 
-            Padding(
-              padding: const EdgeInsets.all(15.0).w,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  // Email
-                  Text('University Email',
-                    style: TextStyle(
-                        fontSize: 25.sp,
-                        color: primeColor
-                    ),),
-                  SizedBox(height: 5.h,),
-              TextFormField(
-                onTap: (){
-                  ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                  
-                },
-                controller: uniEmailController,
-                decoration: InputDecoration(
-                    hintText: 'Email',
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        width: 2.w,
-                        color: primeColor,
-                      ),
-                      borderRadius: BorderRadius.circular(25.r),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25.r),
+                  {
+                    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                    cubit.oldPassword = cubit.loginPasswordController.text ;
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const HomePage()));
+                  }
 
-                        borderSide: BorderSide(
-                            width: 2.w,
-                            color: primeColor
-                        )
-                    )
-                ),
-              ),
-                  SizedBox(height: 10.h,),
+                  else if( cubit.loginPasswordController.text.isNotEmpty && cubit.uniEmailController.text.isNotEmpty )
 
-                  // Password
-                  Text('Password',
-                    style: TextStyle(
-                        fontSize: 25.sp,
-                        color: primeColor
-                    ),),
-                  SizedBox(height: 5.h,),
-              TextFormField(
-                onTap: (){
-                  ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                },
-                controller: passwordController,
-                obscureText: loginPassCheck,
-                decoration: InputDecoration(
-                    hintText: 'Password',
-                    suffixIcon: IconButton(
-                      onPressed: (){
-                     setState(() {
-                       loginPassCheck = !loginPassCheck ;
-                     });
-                      },
-                      icon:  Icon(
-                        loginPassCheck ?
-                        Icons.remove_red_eye :
-                        Icons.password,
-                        color: primeColor,),),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        width: 2.w,
-                        color: primeColor,
-                      ),
-                      borderRadius: BorderRadius.circular(25.r),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25.r),
-                        borderSide:  BorderSide(
-                            width: 2.w,
-                            color: primeColor
-                        )
-                    )
-                ),
-              ),
-                ],
-              ),
-            ),
-            SizedBox(height: 10.h,),
-            MaterialButton(
-              onPressed: () async {
-                if(
-                uniEmailController.text == "alaa" && passwordController.text == "555"
-                ){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> const HomePage()));
-                }
-               else if( passwordController.text.isNotEmpty && uniEmailController.text.isNotEmpty )
-                {
-              await login(uniEmail: uniEmailController.text, password: passwordController.text)
-                ?
-             {
-               ScaffoldMessenger.of(context).removeCurrentSnackBar(),
-               Navigator.push(context, MaterialPageRoute(builder: (context)=>  HomePage()))
-             }
-                  :
-
-              ScaffoldMessenger.of(context).removeCurrentSnackBar();
-              ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Center(
-                        child:
-                        Text(loginMassage != "" ? loginMassage : "Something is wrong .. check if your data isn't correct")
-                    // Text("Something is wrong .. check if your data isn't correct ")
-                    ),
-                  ));
-
-
-    }
-
-                else{
-                  ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                        content: Center(child:
-                        Text('Please Enter your University Email and Password first')),
-                      ));
+                  {
+                    await cubit.login(
+                      uniEmail: cubit.uniEmailController.text,
+                      password: cubit.loginPasswordController.text)
+                        ?
+                    {
+                      ScaffoldMessenger.of(context).removeCurrentSnackBar(),
+                      cubit.navToHomeScreen(context)
                     }
-                //
+                        :
 
-              },
-              color: primeColor,
-              elevation: 8,
-              minWidth:300.w,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.r)),
-              height: MediaQuery.of(context).size.height*0.06,
-              child:  Text('Login',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25.sp),),
-            ),
+                    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                       SnackBar(
+                          content: Center(
+                              child: Text( cubit.loginMassage! )),
+                        ));
+                  }
 
-          ],
+                  else
+
+                  {
+                    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Center(
+                              child: Text('Please Enter your University Email and Password first')),
+                        ));
+                  }
+                },
+                color: primeColor,
+                elevation: 8,
+                minWidth:300.w,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.r)),
+                height: MediaQuery.of(context).size.height*0.06,
+                child:  Text('Login',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 25.sp),),
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    }, );
   }
 }
 
