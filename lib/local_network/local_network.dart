@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:shared_preferences/shared_preferences.dart';
 // Not Used yet
 class CacheNetwork{
@@ -13,10 +15,13 @@ class CacheNetwork{
   }
   static Future<bool > insertToValueName ({required String key,
     required String value , }) async {
-    return await sharedPref.setString(key, value );
+    return await sharedPref.setString(key , value );
   }
 
-
+  static Future<bool > insertToValueLange ({required String key,
+    required String value , }) async {
+    return await sharedPref.setString(key, value );
+  }
   static String getCacheData ({required String key}){
     return sharedPref.getString(key) ?? "";
   }

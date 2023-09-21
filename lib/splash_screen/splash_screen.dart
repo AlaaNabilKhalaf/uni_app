@@ -5,6 +5,8 @@ import 'package:uni_attendance/cubit/splash_screen_cubit/states.dart';
 import '../constance.dart';
 import '../login_page/login_page.dart';
 
+// This Cubit is for  Splash Screen only
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
   @override

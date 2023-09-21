@@ -1,7 +1,7 @@
+// This File provides States for Screens UI and ABI Methods
+
 abstract class LayoutStates {}
-
 class LayoutInitialState extends LayoutStates {}
-
 
 // UI States
 // Login Screen States
@@ -30,3 +30,10 @@ class LoginFailureState extends LayoutStates{}
 class ResetPasswordLoadingState extends LayoutStates{}
 class ResetPasswordSuccessState extends LayoutStates{}
 class ResetPasswordFailureState extends LayoutStates{}
+
+
+//Languages
+class LanguageChangedToArabic extends LayoutStates{}
+
+class LanguageChangedToEnglish extends LayoutStates{}
+class LanguageIsEnglish extends LayoutStates{}
