@@ -5,7 +5,6 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:uni_attendance/cubit/layout_cubit/layout_cubit.dart';
 import 'package:uni_attendance/cubit/layout_cubit/layout_states.dart';
 import 'package:uni_attendance/login_page/login_page.dart';
-
 import '../constance.dart';
 
 class ChangePasswordPage extends StatelessWidget {
@@ -204,10 +203,14 @@ const ChangePasswordPage({super.key});
                    child: MaterialButton(
                      onPressed: () async {
                        if(cubit.oldPassController.text.isEmpty || cubit.newPassController.text.isEmpty || cubit.newPassConController.text.isEmpty)
+
                        {
                          ScaffoldMessenger.of(context).removeCurrentSnackBar();
                          ScaffoldMessenger.of(context).showSnackBar(
                              const SnackBar(
+                               duration: Duration(
+                                 seconds: 3
+                               ),
                                content: Center(
                                    child: Text("All fields are required" )),
                              ));
@@ -219,25 +222,17 @@ const ChangePasswordPage({super.key});
                        ScaffoldMessenger.of(context).removeCurrentSnackBar();
                        ScaffoldMessenger.of(context).showSnackBar(
                            const SnackBar(
+                             duration: Duration(
+                                 seconds: 3
+                             ),
                              content: Center(
-                             child: Text("Your New Password doesn't match" )),
+                             child: Text("Your New Passwords don't match" )),
                              ));
                      }
 
-                     //   else if
-                     // (cubit.oldPassController.text != cubit.oldPassword)
-                     //
-                     //   {
-                     //   ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                     //   ScaffoldMessenger.of(context).showSnackBar(
-                     //       const SnackBar(
-                     //       content: Center(
-                     //         child: Text(" Your old password is wrong" )),
-                     //   ));
-                     // }
-
                      else if
-                       (cubit.newPassController.text == cubit.newPassConController.text && cubit.oldPassController.text == cubit.loginPasswordController.text )
+                       (cubit.newPassController.text == cubit.newPassConController.text &&
+                           cubit.oldPassController.text.isNotEmpty )
                      {
                        await cubit.resetPassword(
                            oldPassword: cubit.oldPassController.text,
@@ -283,33 +278,32 @@ const ChangePasswordPage({super.key});
                          ],
                        ).show();
                        }
-
                      }
-
-                     else if(
-                       cubit.oldPassController.text == 'alaa' &&
-                       cubit.newPassController.text == "alaa" &&
-                       cubit.newPassConController.text == "alaa"
-                       )
-                     {
-                       Alert(
-                         context: context,
-                         type: AlertType.success,
-                         title: "DONE",
-                         desc: "Your Password Was Changed Successfully",
-                         buttons: [
-                           DialogButton(
-                             color: primeColor,
-                             onPressed: () => Navigator.pop(context),
-                             width: 125.w,
-                             child: Text(
-                               "OK",
-                               style: TextStyle(color: Colors.white, fontSize: 25.sp),
-                             ),
-                           )
-                         ],
-                       ).show();
-                     }
+                     //
+                     // else if(
+                     //   cubit.oldPassController.text == 'alaa' &&
+                     //   cubit.newPassController.text == "ahmed" &&
+                     //   cubit.newPassConController.text == "ahmed"
+                     //   )
+                     // {
+                     //   Alert(
+                     //     context: context,
+                     //     type: AlertType.success,
+                     //     title: "DONE",
+                     //     desc: "Your Password Was Changed Successfully",
+                     //     buttons: [
+                     //       DialogButton(
+                     //         color: primeColor,
+                     //         onPressed: () => Navigator.pop(context),
+                     //         width: 125.w,
+                     //         child: Text(
+                     //           "OK",
+                     //           style: TextStyle(color: Colors.white, fontSize: 25.sp),
+                     //         ),
+                     //       )
+                     //     ],
+                     //   ).show();
+                     // }
                    },
                      color: primeColor,
                      elevation: 15,
@@ -327,8 +321,8 @@ const ChangePasswordPage({super.key});
                  Column(
                    mainAxisAlignment: MainAxisAlignment.start,
                    children:<Widget> [
-
                      MaterialButton(  onPressed: () {
+                       cubit.loginPasswordController.text.isEmpty ;
                        ScaffoldMessenger.of(context).removeCurrentSnackBar();
                        Navigator.pushReplacement(context,
                            MaterialPageRoute(builder: (context)=> const LoginPage()));

@@ -101,9 +101,10 @@ class HomePage extends StatelessWidget {
                     MaterialButton(onPressed: (){
 
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context )=> const QrScanner(
-                        //cubit.userId
-                        userId: 0,)));
+                          MaterialPageRoute(builder: (context )=> QrScanner(
+                             userId:  cubit.userId!
+                        // userId: 0,
+                          )));
                     },
                       elevation: 50,
                       child: CircleAvatar(

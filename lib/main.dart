@@ -16,11 +16,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    // This Method is controlling the status bar appearance.
     SystemChrome.setSystemUIOverlayStyle(
         const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
           statusBarIconBrightness: Brightness.dark
     ));
+
+    // MultiBlocProvider is the provider of the state management of the code (cubit).
     return MultiBlocProvider(
         providers: [
           BlocProvider<LayoutCubit>(
@@ -32,11 +36,14 @@ class MyApp extends StatelessWidget {
           ),
     ],
 
+      // ScreenUtilInit is creating the app responsiveness
       child: ScreenUtilInit(
       designSize: const Size(390,844),
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context , child){
+
+
         return const MaterialApp(
           debugShowCheckedModeBanner: false,
           home: SplashScreen(),

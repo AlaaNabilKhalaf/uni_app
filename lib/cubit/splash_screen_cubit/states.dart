@@ -1,3 +1,5 @@
+// This File provides States for Splash Screen
+
 abstract class SplashScreenStates {}
 
 class SplashInitialState extends SplashScreenStates {}

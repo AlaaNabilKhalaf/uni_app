@@ -9,10 +9,12 @@ import 'dart:io';
 import 'package:http/http.dart%20';
 import 'package:http/http.dart ' as http ;
 
+ // This cubit provides Screens UI, ABI Methods and returned date
+
 class LayoutCubit extends Cubit <LayoutStates>{
   LayoutCubit() : super (LayoutInitialState());
 
-  //Change Password Screen Items
+  //Change Password Screen UI Items
   bool oldPassCheck = true ;
   bool newPassCheck = true ;
   bool conPassCheck = true ;
@@ -38,7 +40,7 @@ class LayoutCubit extends Cubit <LayoutStates>{
 
 
 
-  //Login Screen Items
+  //Login Screen UI Items
   bool loginPassCheck = true ;
   final uniEmailController = TextEditingController();
   final loginPasswordController = TextEditingController();
@@ -57,7 +59,7 @@ class LayoutCubit extends Cubit <LayoutStates>{
 
 
 
-  //Home Screen Items
+  //Home Screen UI Items
   File? image ;
 
   Future pickImage() async {
@@ -72,25 +74,20 @@ class LayoutCubit extends Cubit <LayoutStates>{
   }
 
 
-//ApI Functions
-
-
-
-  String? userName ;
-  int secondIndex = 0 ;
-  String? oldPassword  ;
+ //ApI Methods
 
 
 // Login Method Items
   int? userId ;
   String? loginMassage ;
   String? theKey ;
+  String? oldPassword  ;
 
-  Future<bool> login(
+  Future<void> login(
        { required String uniEmail, required String password, } ) async {
     emit(LoginLoadingState());
     try{ Response response = await http.post(
-        Uri.parse('http://66.29.130.92:5000/api/mobile_api/student_login'),
+        Uri.parse('https://attendance.ebdaa-business.com/api/mobile_api/student_login'),
         body: {
           'university_email' : uniEmail,
           'password' : password
@@ -102,46 +99,46 @@ class LayoutCubit extends Cubit <LayoutStates>{
           'Content-Type': 'application/x-www-form-urlencoded'
         }
     );
-    if(response.statusCode == 200){
-      emit(LoginSuccessState());
-      Map<String , dynamic> data = jsonDecode(response.body);
-      debugPrint("enter status 200");
-      if (data["message"] == "Logged in successfully")
+    Map<String , dynamic> data = jsonDecode(response.body);
+    if(response.statusCode == 200)
       {
         loginMassage = data["message"] ;
         userId = data["student_id"];
+
         CacheNetwork.insertToValueID(
           key: 'student_id',  value: data['student_id'] ,
         );
         CacheNetwork.insertToValueName(key: "student_name", value: data["student_name"]);
         debugPrint(data['message']);
         theKey = 'student_id' ;
-        return true;
+
+        emit(LoginSuccessState());
+
       }
-      else{
-        loginMassage = data["message"] ;
-        emit(LoginFailureState());
-        return false;
-      }
+
+    else{
+      loginMassage = "${data["message"]}";
+      print("8888888888888888888888888888888888888888888${response.statusCode}");
+      emit(LoginFailureState());
     }
     }
     catch (e) {
-      loginMassage = 'Make Sure your Email and Password are Right ';
+      loginMassage = 'Something went wrong, please check your Email and Password and try again';
       emit(LoginFailureState());
-      return false;
+
     }
-    return false;
+
   }
 
 
 // Reset Password Method Items
   String? passMassage ;
 
-  Future<bool> resetPassword(
+  Future<void> resetPassword(
        {required String oldPassword, required String newPassword}) async {
     emit(ResetPasswordLoadingState());
     try{ Response response = await http.post(
-        Uri.parse('http://66.29.130.92:5000/api/mobile_api/change_password?student_id=$userId'),
+        Uri.parse('https://attendance.ebdaa-business.com/api/mobile_api/change_password?student_id=$userId'),
         body: {
           'old_password' : oldPassword,
           'new_password' : newPassword,
@@ -153,30 +150,31 @@ class LayoutCubit extends Cubit <LayoutStates>{
           'Content-Type': 'application/x-www-form-urlencoded'
         }
     );
-    print(response.statusCode);
+    print("8888888888888888888888888888888888888888888${response.statusCode}");
     print(userId);
-    if( response.statusCode == 200 ){
-      Map<String , dynamic> data = jsonDecode(response.body);
-      debugPrint("enter status 200");
-      if (data["message"] == "password has been changed")
-      {
-        passMassage = data["message"] ;
-        emit(ResetPasswordSuccessState());
-        return true ;
 
-      } else {
-        passMassage = data["message"] ;
-        emit(ResetPasswordFailureState());
-        return false;
-      }
+    Map<String , dynamic> data = jsonDecode(response.body);
+    if( response.statusCode == 200 )
+    {
+      passMassage = data["message"] ;
+      emit(ResetPasswordSuccessState());
+
+    }
+    else
+    {
+      passMassage = data["message"] ;
+      emit(ResetPasswordFailureState());
     }
     } catch (e) {
       passMassage = 'Something went wrong .. please try again';
       emit(ResetPasswordFailureState());
-      return false;
+
     }
-    return true;
   }
+
+//
+// String? userName ;
+// int secondIndex = 0 ;
 
 //QR Method
 //   Future<void> qrGenerator() async {

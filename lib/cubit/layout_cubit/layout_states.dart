@@ -1,7 +1,7 @@
+// This File provides States for Screens UI and ABI Methods
+
 abstract class LayoutStates {}
-
 class LayoutInitialState extends LayoutStates {}
-
 
 // UI States
 // Login Screen States

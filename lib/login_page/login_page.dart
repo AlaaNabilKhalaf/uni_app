@@ -18,47 +18,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final cubit = BlocProvider.of<LayoutCubit>(context);
-    // Future<bool> login({required String uniEmail, required String password,})
-    // async {
-    //   try{ Response response = await http.post(
-    //       Uri.parse('https://attendance.ebdaa-business.com/login'),
-    //       body: {
-    //         'university_email' : uniEmail,
-    //         'password' : password
-    //       },
-    //       headers: {
-    //         'accept': 'application/json' ,
-    //         'User': 'admin' ,
-    //         'apikey': 'apikey' ,
-    //         'Content-Type': 'application/x-www-form-urlencoded' ,
-    //       }
-    //   );
-    //   if(response.statusCode == 200){
-    //     Map<String , dynamic> data = jsonDecode(response.body);
-    //     debugPrint("enter status 200");
-    //     if (data["message"] == "Logged in successfully")
-    //     {
-    //       cubit.loginMassage = data["message"] ;
-    //       cubit.userId = data["student_id"];
-    //       // CacheNetwork.insertToValueID(
-    //       //   key: 'student_id',  value: data['student_id'] ,
-    //       // );
-    //       // CacheNetwork.insertToValueName(key: "student_name", value: data["student_name"]);
-    //       debugPrint(data['message']);
-    //       cubit.theKey = 'student_id' ;
-    //       return true;
-    //     }
-    //     else {
-    //       cubit.loginMassage = data["message"] ;
-    //       return false;
-    //     }
-    //   }
-    //   } catch(e) {
-    //     cubit.loginMassage = 'Make Sure your Email and Password are Right ';
-    //     return false;
-    //   }
-    //   return false;
-    // }
+
     return  BlocConsumer<LayoutCubit , LayoutStates>(
         listener: (context , state ){},
         builder: (context , state ){
@@ -174,7 +134,8 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 10.h,),
               MaterialButton(
                 onPressed: () async {
-                  if(cubit.uniEmailController.text == "alaa" && cubit.loginPasswordController.text == "555")
+
+                  if(cubit.uniEmailController.text == "alaa" && cubit.loginPasswordController.text == "555" )
 
                   {
                     ScaffoldMessenger.of(context).removeCurrentSnackBar();
@@ -182,25 +143,35 @@ class _LoginPageState extends State<LoginPage> {
                     Navigator.push(context, MaterialPageRoute(builder: (context)=> const HomePage()));
                   }
 
-                  else if( cubit.loginPasswordController.text.isNotEmpty && cubit.uniEmailController.text.isNotEmpty )
+                  if( cubit.loginPasswordController.text.isNotEmpty && cubit.uniEmailController.text.isNotEmpty )
 
                   {
                     await cubit.login(
                       uniEmail: cubit.uniEmailController.text,
-                      password: cubit.loginPasswordController.text)
-                        ?
-                    {
-                      ScaffoldMessenger.of(context).removeCurrentSnackBar(),
-                      cubit.navToHomeScreen(context)
-                    }
-                        :
+                      password: cubit.loginPasswordController.text);
+                      if(cubit.loginMassage == "Logged in successfully")
+                     {
+                       ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                       ScaffoldMessenger.of(context).showSnackBar(
+                         SnackBar(
+                           duration: const Duration(
+                             seconds: 1
+                           ),
+                           content: Center(
+                               child: Text( cubit.loginMassage! )),
+                         ));
+                     cubit.navToHomeScreen(context);
+                     }
+                      else
+                 {
+                   ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                   ScaffoldMessenger.of(context).showSnackBar(
+                 SnackBar(
+                 content: Center(
+                 child: Text( cubit.loginMassage! )),
+                 ));
+                 }
 
-                    ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                       SnackBar(
-                          content: Center(
-                              child: Text( cubit.loginMassage! )),
-                        ));
                   }
 
                   else
@@ -213,6 +184,7 @@ class _LoginPageState extends State<LoginPage> {
                               child: Text('Please Enter your University Email and Password first')),
                         ));
                   }
+
                 },
                 color: primeColor,
                 elevation: 8,

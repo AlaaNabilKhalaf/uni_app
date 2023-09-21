@@ -8,11 +8,11 @@ import 'package:http/http.dart%20';
 import '../constance.dart';
 
 class QrScanner extends StatefulWidget {
- const QrScanner({
+  QrScanner({
     super.key ,
   required this.userId });
   final int userId ;
-
+String? mass ;
   @override
   State<QrScanner> createState() => _QrScannerState();
 }
@@ -68,32 +68,46 @@ class _QrScannerState extends State<QrScanner> {
 
   Future<void> qrGenerator() async {
     try{ Response response = await http.post(
-        Uri.parse('http://66.29.130.92:5000/api/mobile_api/add_attendance?lecture_id=${lecId(barcode!.code.toString())}&student_id=${widget.userId}'),
+        Uri.parse('https://attendance.ebdaa-business.com/api/mobile_api/add_attendance?lecture_id=${lecId(barcode!.code.toString())}&student_id=${widget.userId}'),
         headers: {
           'accept': 'application/json' ,
           'User': 'admin' ,
           'apikey': 'apikey',
-          // 'apikey': 'apikey',
         }
     );
-    // debugPrint(response.statusCode);
     debugPrint('""""""""""""""""""""""""""""""""""""""""http://66.29.130.92:5000/api/mobile_api/add_attendance?lecture_id= ${widget.userId}&student_id=0');
-    if(response.statusCode == 200){
+    Map<String , dynamic> data = jsonDecode(response.body);
+    if(response.statusCode == 200)
+    {
       var lectureId = lecId(barcode!.code.toString());
-      debugPrint('lecture id is $lectureId');
-      Map<String , dynamic> data = jsonDecode(response.body);
+      debugPrint('lecture id isssssssssssssssssssssssssssssssssssssssss $lectureId');
+      print(data["message"]);
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Center(child:  Text('${data["message"]}')),
+        duration: const Duration(
+            seconds: 2
+        ),
+        content: Center(child: Text('${data["message"]}')),
       ));
-
     }
-    }catch(e){
+    else
+    {
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        duration: const Duration(
+            seconds: 2
+        ),
+        content: Center(child: Text('${data["message"]}')),
+      ));
+    }
+    } catch(e) {
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        duration: Duration(
+          seconds: 3
+        ),
         content: Center(child:  Text('something went wrong try again')),
       ));
-
     }
 
   }
@@ -114,29 +128,24 @@ class _QrScannerState extends State<QrScanner> {
         barcode = barcod ;
         qrGenerator() ;
       });
-
     } );
-
-    debugPrint( '""""""""""""""""""""""""""""""""DONEEEEEEEEEEEE');
-
 
   }
 
   Widget buildResult
-      ()=> Container(
+      ()=> barcode == null ? Container(
     padding: const EdgeInsets.all(10).w,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10.w),
       color: Colors.grey.shade100,
     ),
-    child: Text(
-      barcode != null ? 'Link is : ${barcode!.code}' :
+    child: const Text(
       'Scan a Code!',
       maxLines: 4,
 
 
     ),
-  );
+  ) : const SizedBox() ;
 
   Widget buildControlButtons()=> Container(
     padding: const EdgeInsets.all(10).w,
@@ -165,19 +174,20 @@ class _QrScannerState extends State<QrScanner> {
           },
         )
         ),
-
-
-
-        IconButton(onPressed: ()async{
+        IconButton(onPressed: () async
+        {
           await controller?.flipCamera();
           setState(() {
           });
-        }, icon: FutureBuilder(
+        },
+            icon: FutureBuilder(
           future: controller?.getCameraInfo(),
           builder: (context , snapshot){
             if(snapshot.data !=null ){
               return const Icon( Icons.switch_camera);
-            }else{
+            }
+            else
+            {
               return Container();
             }
           },
