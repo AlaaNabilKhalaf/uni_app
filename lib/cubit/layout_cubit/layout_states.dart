@@ -34,6 +34,18 @@ class ResetPasswordFailureState extends LayoutStates{}
 
 //Languages
 class LanguageChangedToArabic extends LayoutStates{}
-
 class LanguageChangedToEnglish extends LayoutStates{}
 class LanguageIsEnglish extends LayoutStates{}
+
+
+// Controllers
+class CameraFlip extends LayoutStates{}
+class Flash extends LayoutStates{}
+class ControllerInitialed extends LayoutStates{}
+
+
+//QR Methods
+class SendAttendanceLoadingState extends LayoutStates{}
+class SendAttendanceSuccessState extends LayoutStates{}
+class SendAttendanceFailureState extends LayoutStates{}
+class SendAttendanceFailureCatchState extends LayoutStates{}

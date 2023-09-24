@@ -1,0 +1,29 @@
+{
+    "Login" : "تسجيل الدخول",
+    "UniEmail" : "البريد الإلكتروني للجامعة",
+    "UniEmailHint" : " بريدك الإلكتروني",
+    "LoginPassword" : "كلمة المرور",
+    "LoginPasswordHint" : " كلمة المرور",
+    "QrScanner": "مسح رمز الاستجابة السريعة",
+    "Welcome" : "مرحبًا",
+    "ResetPassword" : "إعادة تعيين كلمة المرور",
+    "OldPassword" : "كلمة المرور القديمة",
+    "NewPassword" : "كلمة المرور الجديدة",
+    "ConNewPassWord" : "تأكيد كلمة المرور الجديدة",
+    "GoToLogin" : "الانتقال إلى تسجيل الدخول",
+    "OldPasswordHint" : " كلمة المرور القديمة",
+    "NewPasswordHint" : " كلمة المرور الجديدة",
+    "ConNewPassWordHint" : " كلمة المرور الجديدة",
+    "LangLab" : "English",
+    "LoginValidationMassage" : "الرجاء إدخال البريد الإلكتروني وكلمة المرور أولاً",
+    "AllFieldsRequired" : "جميع الحقول مطلوبة",
+    "Error" : "خطا حاول مرة اخري",
+    "ScanACode" : "مسح الرمز",
+    "OK" : "حسنا",
+    "OPS" : "عفوًا",
+    "DONE" : "تم",
+    "NewPasswordsDoNotMatch" : "كلمات المرور الجديدة غير متطابقة",
+    "SomethingWentWrong":  "خطا .. من فضلك حاول مجددا"
+
+ 
+}

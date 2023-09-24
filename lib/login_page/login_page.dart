@@ -138,29 +138,37 @@ class _LoginPageState extends State<LoginPage> {
                 MaterialButton(
                   onPressed: () async {
                     if (cubit.loginPasswordController.text.isNotEmpty &&
-                        cubit.uniEmailController.text.isNotEmpty) {
-                      await cubit.login(
-                          uniEmail: cubit.uniEmailController.text,
-                          password: cubit.loginPasswordController.text);
-                      if (cubit.loginMassage == "Logged in successfully") {
+                        cubit.uniEmailController.text.isNotEmpty)
+                    {
+                      try{
+                        await cubit.login(
+                            uniEmail: cubit.uniEmailController.text,
+                            password: cubit.loginPasswordController.text);
+                      }catch (e) {
+                        cubit.loginMassage =lang.SomethingWentWrong;
+                      }
+                      if (cubit.loginMassage == "Logged in successfully")
+                      {
                         ScaffoldMessenger.of(context).removeCurrentSnackBar();
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           duration: const Duration(seconds: 1),
                           content: Center(child: Text(cubit.loginMassage!)),
                         ));
                         cubit.navToHomeScreen(context);
-                      } else {
+                      }
+                      else {
                         ScaffoldMessenger.of(context).removeCurrentSnackBar();
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Center(child: Text(cubit.loginMassage!)),
                         ));
                       }
-                    } else {
+                    }
+                    else {
                       ScaffoldMessenger.of(context).removeCurrentSnackBar();
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Center(
                             child: Text(
-                            lang.LoginValidationMassage)),
+                                lang.LoginValidationMassage)),
                       ));
                     }
                   },
@@ -179,6 +187,7 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.all(20.0),
                   child: MaterialButton(
                     onPressed: () {
+                      ScaffoldMessenger.of(context).removeCurrentSnackBar();
                       cubit.changeLocale();
                     },
                     color: primeColor,

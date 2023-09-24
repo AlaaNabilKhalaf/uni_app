@@ -1,0 +1,30 @@
+{
+    "Login" : "Login",
+    "UniEmail" : "Universtiy Email",
+    "UniEmailHint" : "Enter Your Email",
+    "LoginPassword" : "Password",
+    "LoginPasswordHint" : "Enter Your Password",
+    "QrScanner": "Scann QR Code",
+    "Welcome" : "Welcome",
+    "ResetPassword" : "Reset Password",
+    "OldPassword" : "Old Password",
+    "NewPassword" : "New Password",
+    "ConNewPassWord" : "Confirm New PassWord",
+    "GoToLogin" : "Go To Login",
+    "OldPasswordHint" : "Enter old Password",
+    "NewPasswordHint" : "Enter New Password",
+    "ConNewPassWordHint" : "Enter New Password",
+    "LangLab" : "العربية",
+    "LoginValidationMassage" : "Please enter your email and password first",
+    "AllFieldsRequired" : "All Fields are Required",
+    "OK" : "OK",
+    "OPS" : "OPS",
+    "ScanACode" :  "Scan a Code!",
+    "DONE" : "DONE",
+    "Error" : "Something went wrong try again",
+    "NewPasswordsDoNotMatch" : "Your New Passwords Don't Match",
+    "SomethingWentWrong":  "Something went wrong .. please try again"
+
+
+
+}

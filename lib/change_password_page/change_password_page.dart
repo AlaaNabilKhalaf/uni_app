@@ -1,5 +1,3 @@
-//
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -192,7 +190,7 @@ class ChangePasswordPage extends StatelessWidget {
                             .showSnackBar( SnackBar(
                           duration: const Duration(seconds: 3),
                           content:
-                              Center(child: Text(lang.AllFieldsRequired)),
+                          Center(child: Text(lang.AllFieldsRequired)),
                         ));
                       } else if (cubit.newPassController.text !=
                           cubit.newPassConController.text) {
@@ -204,11 +202,15 @@ class ChangePasswordPage extends StatelessWidget {
                               child: Text(lang.NewPasswordsDoNotMatch)),
                         ));
                       } else if (cubit.newPassController.text ==
-                              cubit.newPassConController.text &&
+                          cubit.newPassConController.text &&
                           cubit.oldPassController.text.isNotEmpty) {
-                        await cubit.resetPassword(
-                            oldPassword: cubit.oldPassController.text,
-                            newPassword: cubit.newPassController.text);
+                        try{
+                          await cubit.resetPassword(
+                              oldPassword: cubit.oldPassController.text,
+                              newPassword: cubit.newPassController.text);
+                        }catch (e) {
+                          cubit.passMassage = lang.SomethingWentWrong;
+                        }
                         if (cubit.passMassage == "password has been changed") {
                           ScaffoldMessenger.of(context).removeCurrentSnackBar();
                           Alert(
@@ -222,7 +224,7 @@ class ChangePasswordPage extends StatelessWidget {
                                 onPressed: () => Navigator.pop(context),
                                 width: 125.w,
                                 child: Text(
-                                 lang.OK,
+                                  lang.OK,
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 25.sp),
                                 ),
